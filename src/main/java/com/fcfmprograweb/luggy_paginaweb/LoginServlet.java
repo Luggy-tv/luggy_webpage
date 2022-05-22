@@ -76,53 +76,77 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        int IdUsuario= 0;
         boolean userExists =false, passCorrect=false;
-        
-       String usuario = request.getParameter("usuarioLogin");
-       String pass = request.getParameter("passwordLogin");
+        //Define las variables usuario y contraseña que se mandaron desde el form de index.html 
+        String usuario = request.getParameter("usuarioLogin");
+        String pass = request.getParameter("passwordLogin");
+       
+        //una pequeña impresion a la consola para ver el usuario
         System.out.println("Nombre"+usuario);
-       try{
+       
+        //Aqui verificamos si el usuario existe si es asi dos flags son levantadas positivas userExist y passCorrect
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
+            Statement stmt =con.createStatement();
+
+            ResultSet rs= stmt.executeQuery("select idusuario,usuario,contraseña from usuario;");
+            while(rs.next()){
+                if(usuario.matches(rs.getString("usuario"))){
+                    userExists=true;
+                    if(pass.matches(rs.getString("contraseña"))){
+                        passCorrect=true;
+                    }
+                    if(userExists&&passCorrect){
+                        IdUsuario=rs.getInt("idUsuario");
+                    }
+                }
+            }
+            con.close();
+        }
+        catch(SQLException ex){
+            response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+            System.out.println("El error es =");
+            System.out.println(ex);
+            System.out.println("Error en la conexion con MYSQL");
+        } 
+        catch (ClassNotFoundException ex) {
+            response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+            System.out.println("ClassNotFoundException"+ex);
+        }
+        //Aqui checamos si las dos flags existen si hay usuario y la contraseña es correcta entonces se crea la sesion de http
+        if(userExists && passCorrect){
+            //nota nota=new nota;
+            HttpSession miSesion = request.getSession();
+            miSesion.setAttribute("nombre",usuario);
+            System.out.println("Iniciando sesion");
+            
+            try
+            {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
                 Statement stmt =con.createStatement();
 
-                ResultSet rs= stmt.executeQuery("select usuario,contraseña from usuario;");
+                ResultSet rs= stmt.executeQuery("SELECT ;");
                 while(rs.next()){
-                    if(usuario.matches(rs.getString("usuario"))){
-                        userExists=true;
-                        if(pass.matches(rs.getString("contraseña"))){
-                            passCorrect=true;
-                        }
-                    }
+                
                 }
                 con.close();
-       }
-       catch(SQLException ex){
-                    response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
-                    System.out.println("El error es =");
-                    System.out.println(ex);
-                    System.out.println("Error en la conexion con MYSQL");
+            }
+            catch(Exception ex){
+                response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+                System.out.println("El error es =");
+                System.out.println(ex);
+                System.out.println("Error en la conexion con MYSQL");
             } 
-            catch (ClassNotFoundException ex) {
-                    response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
-                    System.out.println("ClassNotFoundException"+ex);
-            }
-       
-       
-       
-        HttpSession miSesion = request.getSession();
-        
-        miSesion.setAttribute("nombre",usuario);
-        
-            if(userExists && passCorrect){
-                System.out.println("Iniciando sesion");
-                response.sendRedirect(request.getContextPath() +"/menu.jsp");
-            }else{
-                System.out.println("Usuario o contraseña invalido");
-                response.sendRedirect(request.getContextPath() +"/loginFail.jsp");
-            }
-        
-        processRequest(request, response);
+            
+            
+            response.sendRedirect(request.getContextPath() +"/menu.jsp");
+        }else{
+            System.out.println("Usuario o contraseña invalido");
+            response.sendRedirect(request.getContextPath() +"/loginFail.jsp");
+        }
     }
 
     /**

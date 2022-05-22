@@ -17,7 +17,7 @@
               integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
               crossorigin="anonymous">
     </head>
-    <%
+    <!--
         
         String username = miSesion.getAttribute(usuario);
         Blob image =null;
@@ -27,7 +27,7 @@
             
     
         }
-        %>
+        %>-->
      <body>
         <div class="container-fluid" style="background-color: rgb(218, 231, 238);">
             
