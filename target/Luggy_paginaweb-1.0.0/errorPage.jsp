@@ -19,8 +19,11 @@
               rel="stylesheet" 
               integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
               crossorigin="anonymous">
+         
+        <link rel="icon" href="imageResources\logow.png">
     </head>
     <body>
+        <img src="imageResources\logob.png" alt="logo" style="width: 100px;heigh:100px">
         <h1>¡OH NO! :(</h1>
         <h2>Acaba de ocurrir un error no identificado háznoslo saber por correo:</h2>
         <h2>renumoo117@gmail.com</h2>
