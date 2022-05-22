@@ -17,6 +17,7 @@
               crossorigin="anonymous">
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <img src="imageResources\logob.png" alt="logo" style="width: 100px;heigh:100px">
+        <h1>Bienvenido al menú</h1>
     </body>
 </html>

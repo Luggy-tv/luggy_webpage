@@ -17,11 +17,14 @@
               rel="stylesheet" 
               integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
               crossorigin="anonymous">
+        <link rel="icon" href="imageResources\logow.png">
     
     </head>
 
 
     <body>
+        
+        <img src="imageResources\logob.png" alt="logo" style="width: 100px;heigh:100px">
         <div class="registroUsuario">
 
             <div class="title">

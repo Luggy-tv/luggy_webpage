@@ -15,8 +15,14 @@
               rel="stylesheet" 
               integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
               crossorigin="anonymous">
+        <link rel="icon" href="imageResources\logow.png">
+        
+        <link rel="icon" href="imageResources\logow.png">
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <img src="imageResources\logob.png" alt="logo" style="width: 100px;heigh:100px">
+        <h1>Error de inicio de sesion.</h1>
+        <h3>El usuario o la contraseña ingresada son incorrectos, vuelvelo a intentar.</h3>
+        <a href="index.jsp" title="Inicia sesión">Regresar al inicio de sesion</a>
     </body>
 </html>
