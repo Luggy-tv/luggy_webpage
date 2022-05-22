@@ -23,6 +23,6 @@
         <img src="imageResources\logob.png" alt="logo" style="width: 100px;heigh:100px">
         <h1>Error de inicio de sesion.</h1>
         <h3>El usuario o la contraseña ingresada son incorrectos, vuelvelo a intentar.</h3>
-        <a href="index.jsp" title="Inicia sesión">Regresar al inicio de sesion</a>
+        <a href="index.html" title="Inicia sesión">Regresar al inicio de sesion</a>
     </body>
 </html>
