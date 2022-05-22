@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,8 +13,7 @@
               rel="stylesheet" 
               integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
               crossorigin="anonymous">
-        
-         <script src="JavaScript/index.js"></script>
+        <script src="JavaScript/index.js"></script>
        
     </head>
  
@@ -25,7 +25,7 @@
             <h2>Tu sitio web de notas</h2>
             <h2>Inicio de sesión</h2>
             <div class="loginUsuario">
-                <form autocomplete="off" action="LoginServelt" method="post"> <!--para que no se guarden los datos en el navegador-->
+                <form autocomplete="off"  method="post" action="LoginServelt"> <!--para que no se guarden los datos en el navegador-->
                     <label>Usuario :
                         <br>
                         <input  type="text" 
@@ -54,8 +54,9 @@
                         required
                         >
                     <span id="msLogin"></span>
+                    
+                    </label>   
                     <br>
-                    </label>    
                     <input type="submit" value="Iniciar Sesión" title="Inicia sesión">
 
                 </form>

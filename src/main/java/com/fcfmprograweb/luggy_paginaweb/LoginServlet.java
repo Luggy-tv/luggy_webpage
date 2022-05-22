@@ -76,6 +76,47 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        boolean userExists =false, passCorrect=false;
+        
+       String usuario = request.getParameter("usuarioLogin");
+       String pass = request.getParameter("passwordLogin");
+        System.out.println("Nombre"+usuario);
+       try{
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
+                Statement stmt =con.createStatement();
+
+                ResultSet rs= stmt.executeQuery("select usuario,contraseña from usuario;");
+                while(rs.next()){
+                    if(usuario.matches(rs.getString("usuario"))){
+                        userExists=true;
+                        if(pass.matches(rs.getString("contraseña"))){
+                            passCorrect=true;
+                        }
+                    }
+                }
+                con.close();
+       }
+       catch(SQLException ex){
+                    response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+                    System.out.println("El error es =");
+                    System.out.println(ex);
+                    System.out.println("Error en la conexion con MYSQL");
+            } 
+            catch (ClassNotFoundException ex) {
+                    response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+                    System.out.println("ClassNotFoundException"+ex);
+            }
+        
+            if(userExists && passCorrect){
+                System.out.println("Iniciando sesion");
+                response.sendRedirect(request.getContextPath() +"/menu.jsp");
+            }else{
+                System.out.println("Usuario o contraseña invalido");
+                response.sendRedirect(request.getContextPath() +"/loginFail.jsp");
+            }
+        
         processRequest(request, response);
     }
 
