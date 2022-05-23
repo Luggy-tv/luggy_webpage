@@ -1,80 +1,61 @@
-<%-- 
-    Document   : menu
-    Created on : 20 may 2022, 21:28:30
-    Author     : luisa
---%>
-
-<%@page import="java.sql.Blob"%>
+<%@page import="com.fcfmprograweb.luggy_paginaweb.classUsuario"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.fcfmprograweb.luggy_paginaweb.classNota"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE-edge"> <!--Pa que jale el internet explorer-->
-        <title>Menu principal</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
-              rel="stylesheet" 
-              integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
-              crossorigin="anonymous">
-    </head>
-    <!--
+         <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+         <link rel="stylesheet" href="css/bootstrap.css">
+         <title>Menu principal</title>
+          <meta charset="UTF-8">
+         <meta http-equiv="X-UA-Compatible" content="IE-edge"> <!--Pa que jale el internet explorer-->
+         <link rel="icon" href="imageResources\logow.png">
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.css%22%3E">
+         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.js%22%3E"></script>
+         <script type="text/javascript">
+             $(document).ready( function () {
+                $('#tablNotas').DataTable();
+             } );
+         </script>
+         <title>Tablas</title>
+     </head>
+     <%
+        int cantNotasActivas= (int)request.getSession().getAttribute("numNotas");
+        classUsuario usuario=(classUsuario)request.getSession().getAttribute("usuario");
         
-        String username = miSesion.getAttribute(usuario);
-        Blob image =null;
-        byte[] imgData=null;
+        System.out.println(usuario);
+        System.out.println("Cant Notas:"+cantNotasActivas);
         
-        try{
-            
-    
-        }
-        %>-->
-     <body>
-        <div class="container-fluid" style="background-color: rgb(218, 231, 238);">
-            
-            <div class="row">
+        ArrayList<classNota> listaNotas= (ArrayList<classNota>)request.getSession().getAttribute("listaNotas");
+        %>
+    <body>
+        <h1>Lista de notas</h1>
 
-                <div class="col-3">
-                   <h3>Listado de notas</h3> 
-                    
-                    <ul class="list-group">
-                        <a href="#" class="list-group-item">
-                            <h4>Titulo de nota 1</h4>
-                            <p>Contenido de nota 1</p>
-                        </a>
+        <table id="tablaNotas" class="display">
+            <thead>
+                <tr>
+                    <td>Id-Nota</td>
+                    <td>Contenido</td>
+                    <td>Fecha</td>
+                </tr>
+            </thead>
+            <tbody>    
+            <c:forEach var="nota" items="${listaNotas}">
+                <tr>
+                    <td>${nota.idNota}</td>
+                    <td>${nota.contenido}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
 
-                        <a href="#" class="list-group-item">
-                            <h4>Titulo de nota 2</h4>
-                            <p>Contenido de nota 2</p>
-                        </a>
-
-                        <a href="#" class="list-group-item">
-                            <h4>Titulo de nota 3</h4>
-                            <p>Contenido de nota 3</p>
-                        </a>
-
-                        <a href="#" class="list-group-item">
-                            <h4>Titulo de nota 4</h4>
-                            <p>Contenido de nota 4</p>
-                        </a>
-                    </ul>
-                </div>
-
-                <div class="col-6">
-                    <h1>Nota</h1>
-                </div>
-
-                <div class="col-3 text-center" style="background-color: rgb(48, 60, 73);">
-                    <br>
-                    <img src="" style="width:60%" class="img-fluid center-block d-block mx-auto rounded-circle">
-                    <br>
-                    <h2 style="color: rgb(134, 214, 15);">Nombre Apellido</h2>
-
-                    
-                </div>
-
-            </div>
-          
-        </div>
-      
     </body>
+        
+        
 </html>

@@ -122,18 +122,6 @@
                             <span id='message'></span>
                             </label>
                         </div>
-
-                        <div class="inputBox">
-                            <label>Imagen de perfil:</label>
-                            <input 
-                            type="file" 
-                            name="imagenPerfil" 
-                            id="imagenPerfil"
-                            accept="image/png, image/jpg, image/jpeg"
-                            size="50"
-                            required>
-                        </div>
-
                     </div>
 
                     <div class="button">

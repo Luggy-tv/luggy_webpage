@@ -5,7 +5,6 @@
 package com.fcfmprograweb.luggy_paginaweb;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 
 import java.sql.DriverManager;
@@ -21,7 +20,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 /**
  *
@@ -58,8 +56,7 @@ public class RegistroServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+       /**
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
@@ -94,22 +91,21 @@ public class RegistroServlet extends HttpServlet {
             String usuario = request.getParameter("nombreDeUsuario");
             String pass = request.getParameter("password");
             
-            InputStream inputStream = null;
+            //InputStream inputStream = null;
             
             System.out.println("Este es el usuario: "+nombres);
             System.out.println("Este es el usuario: "+apellidos);
             System.out.println("Este es el usuario: "+usuario);
             
-            Part filePart = request.getPart("imagenPerfil");
+            /*Part filePart = request.getPart("imagenPerfil");
             if (filePart != null) {
             // prints out some information for debugging
             System.out.println(filePart.getName());
             System.out.println(filePart.getSize());
             System.out.println(filePart.getContentType());
-             
             // obtains input stream of the upload file
             inputStream = filePart.getInputStream();
-            }
+            }*/
             
             try{
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -143,14 +139,13 @@ public class RegistroServlet extends HttpServlet {
                 try{
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true", "root", "4&Yi3YXQQ#nx?iHo");
-                    PreparedStatement stmt =con.prepareStatement("INSERT INTO usuario(usuario,contraseña,nombres,apellidos,mail,fechaNac,profilePic) VALUES(?,?,?,?,?,?,?)");
+                    PreparedStatement stmt =con.prepareStatement("INSERT INTO usuario(usuario,contraseña,nombres,apellidos,mail,fechaNac) VALUES(?,?,?,?,?,?)");
                     stmt.setString(1, usuario);
                     stmt.setString(2, pass);
                     stmt.setString(3, nombres);
                     stmt.setString(4, apellidos);
                     stmt.setString(5,correo);
                     stmt.setString(6, fechanac);
-                    stmt.setBlob(7,inputStream);
 
                     stmt.execute();
                     con.close();

@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,7 +50,6 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -75,15 +75,17 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        classUsuario usuario=new classUsuario();
+        
         request.setCharacterEncoding("UTF-8");
-        int IdUsuario= 0;
         boolean userExists =false, passCorrect=false;
+        
         //Define las variables usuario y contraseña que se mandaron desde el form de index.html 
-        String usuario = request.getParameter("usuarioLogin");
+        String sUsuario = request.getParameter("usuarioLogin");
         String pass = request.getParameter("passwordLogin");
        
         //una pequeña impresion a la consola para ver el usuario
-        System.out.println("Nombre"+usuario);
+        System.out.println("Nombre "+sUsuario);
        
         //Aqui verificamos si el usuario existe si es asi dos flags son levantadas positivas userExist y passCorrect
         try{
@@ -91,59 +93,92 @@ public class LoginServlet extends HttpServlet {
             Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
             Statement stmt =con.createStatement();
 
-            ResultSet rs= stmt.executeQuery("select idusuario,usuario,contraseña from usuario;");
+            ResultSet rs= stmt.executeQuery("select idusuario,usuario,contraseña,nombres,apellidos,mail,fechaNac from usuario;");
             while(rs.next()){
-                if(usuario.matches(rs.getString("usuario"))){
+                if(sUsuario.matches(rs.getString("usuario"))){
                     userExists=true;
                     if(pass.matches(rs.getString("contraseña"))){
                         passCorrect=true;
                     }
                     if(userExists&&passCorrect){
-                        IdUsuario=rs.getInt("idUsuario");
+                        usuario.setIdUsuario(rs.getInt("idUsuario"));
+                        usuario.setUsuario(rs.getString("usuario"));
+                        usuario.setContraseña(rs.getString("contraseña"));
+                        usuario.setNombres(rs.getString("nombres"));
+                        usuario.setApellidos(rs.getString("apellidos"));
+                        usuario.setMail(rs.getString("mail"));
+                        usuario.setFechaNac(rs.getString("fechaNac"));
                     }
                 }
             }
             con.close();
         }
-        catch(SQLException ex){
+        catch(ClassNotFoundException | SQLException ex)
+        {
             response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
             System.out.println("El error es =");
             System.out.println(ex);
             System.out.println("Error en la conexion con MYSQL");
         } 
-        catch (ClassNotFoundException ex) {
-            response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
-            System.out.println("ClassNotFoundException"+ex);
-        }
+        
+        
         //Aqui checamos si las dos flags existen si hay usuario y la contraseña es correcta entonces se crea la sesion de http
-        if(userExists && passCorrect){
-            //nota nota=new nota;
-            HttpSession miSesion = request.getSession();
-            miSesion.setAttribute("nombre",usuario);
-            System.out.println("Iniciando sesion");
+        if(userExists && passCorrect){       
+             HttpSession miSesion = request.getSession();
+            int numNotas=0;
             
-            try
-            {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
-                Statement stmt =con.createStatement();
-
-                ResultSet rs= stmt.executeQuery("SELECT ;");
-                while(rs.next()){
-                
+            miSesion.setAttribute("usuario",usuario);
+            miSesion.setAttribute("IdUsuario",usuario.getIdUsuario());
+            
+            System.out.println("Iniciando sesion y recolectando notas");
+            //Obtiene las notas existentes del usuario de la base de datos.
+            boolean hayNotas =classUsuario.checkIfUsuarioHasNotas(usuario.getIdUsuario());
+            if(hayNotas){
+                ArrayList<classNota> listaNotas = new ArrayList<>();
+                try
+                {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
+                    Statement stmt =con.createStatement();
+                    ResultSet rs= stmt.executeQuery("SELECT idNota,idUsuarioFK,createDateN,contenido,activa from nota where activa =1;");
+                    while(rs.next()){
+                        if( usuario.getIdUsuario()==rs.getInt("idUsuarioFK")){
+                            classNota nota= new classNota();
+                            nota.setIdNota(rs.getInt("idNota"));
+                            nota.setUsuarioFK(rs.getInt("idUsuarioFK"));
+                            nota.setFechaCreacion(rs.getString("createDateN"));
+                            nota.setContenido(rs.getString("contenido"));
+                            nota.setActiva(rs.getBoolean("activa"));
+                            listaNotas.add(nota);
+                            numNotas=numNotas+1;
+                            
+                        }
+                    }
+                    con.close();
                 }
-                con.close();
+                catch(ClassNotFoundException | SQLException ex)
+                {
+                    response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+                    System.out.println("El error es =");
+                    System.out.println(ex);
+                    System.out.println("Error en la conexion con MYSQL");
+                }  
+                miSesion.setAttribute("numNotas",numNotas);
+                miSesion.setAttribute("listaNotas",listaNotas);
+                
+                
+                
+                response.sendRedirect(request.getContextPath() +"/menu.jsp");
             }
-            catch(Exception ex){
-                response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
-                System.out.println("El error es =");
-                System.out.println(ex);
-                System.out.println("Error en la conexion con MYSQL");
-            } 
-            
-            
+            else
+            {
+             System.out.println("Sesion inicada redireccionando...");
+            //request.getRequestDispatcher("menu.jsp").forward(request,response);
             response.sendRedirect(request.getContextPath() +"/menu.jsp");
-        }else{
+            }
+        
+        }
+        else{
             System.out.println("Usuario o contraseña invalido");
             response.sendRedirect(request.getContextPath() +"/loginFail.jsp");
         }

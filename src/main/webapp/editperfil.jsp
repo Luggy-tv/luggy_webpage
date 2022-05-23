@@ -18,7 +18,14 @@
               crossorigin="anonymous">
     </head>
     <body>
+        <%
+             String usuario=(String)request.getSession().getAttribute("sUsuario");
+            %>
         <img src="imageResources\logob.png" alt="logo" style="width: 100px;heigh:100px">
-        <h1>Hello World!</h1>
+        <a href="menu.jsp">
+            <button>Regresar</button>
+        </a>
+        <h1>Hola ${usuario}</h1>
+        
     </body>
 </html>
