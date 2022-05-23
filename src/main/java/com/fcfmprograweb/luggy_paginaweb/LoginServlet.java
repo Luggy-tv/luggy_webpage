@@ -61,7 +61,83 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        System.out.println("DoGet del servlet de inicio sesion");
+       
+        
+         
+        HttpSession miSesion = request.getSession();
+        classUsuario usuario=(classUsuario)request.getSession().getAttribute("usuario");
+        int numNotas=0;
+
+        miSesion.setAttribute("usuario",usuario);
+        miSesion.setAttribute("IdUsuario",usuario.getIdUsuario());
+
+        System.out.println("Iniciando sesion y recolectando notas");
+
+        boolean hayNotas= false;
+        try{
+           Class.forName("com.mysql.cj.jdbc.Driver");
+           Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
+           Statement stmt =con.createStatement();
+           ResultSet rs= stmt.executeQuery("SELECT idNota,idUsuarioFK FROM nota");
+             while(rs.next()){
+                 if(usuario.getIdUsuario()==rs.getInt("idUsuarioFK")){
+                     hayNotas= true;
+                 }
+             }
+             con.close();
+        }
+        catch(Exception ex){
+                  System.out.println(ex);
+              }
+
+       //Obtiene las notas existentes del usuario de la base de datos.
+        if(hayNotas){
+            ArrayList<classNota> listaNotas = new ArrayList<>();
+            try
+            {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
+                Statement stmt =con.createStatement();
+                ResultSet rs= stmt.executeQuery("SELECT idNota,idUsuarioFK,createDateN,contenido,activa from nota where activa =1;");
+                while(rs.next()){
+                    if( usuario.getIdUsuario()==rs.getInt("idUsuarioFK")){
+                        classNota nota= new classNota();
+                        nota.setIdNota(rs.getInt("idNota"));
+                        nota.setUsuarioFK(rs.getInt("idUsuarioFK"));
+                        nota.setFechaCreacion(rs.getString("createDateN"));
+                        nota.setContenido(rs.getString("contenido"));
+                        nota.setActiva(rs.getBoolean("activa"));
+                        listaNotas.add(nota);
+                        numNotas=numNotas+1;
+
+                    }
+                }
+                System.out.println("Notas agregadas a la lista");
+                con.close();
+            }
+            catch(ClassNotFoundException | SQLException ex)
+            {
+                response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+                System.out.println("El error es =");
+                System.out.println(ex);
+                System.out.println("Error en la conexion con MYSQL");
+            }  
+            miSesion.setAttribute("numNotas",numNotas);
+            miSesion.setAttribute("listaNotas",listaNotas);
+            response.sendRedirect(request.getContextPath() +"/menu.jsp");
+        }
+        else
+        {
+        ArrayList<classNota> listaNotas = new ArrayList<>();
+        miSesion.setAttribute("numNotas",numNotas);
+        miSesion.setAttribute("listaNotas",listaNotas);
+        System.out.println("Sesion reiniciada redireccionando...");
+        //request.getRequestDispatcher("menu.jsp").forward(request,response);
+        response.sendRedirect(request.getContextPath() +"/menu.jsp");
+        }
+
     }
 
     /**
