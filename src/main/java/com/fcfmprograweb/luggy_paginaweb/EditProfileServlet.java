@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -60,42 +61,6 @@ public class EditProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        int idUsuario =(int)request.getSession().getAttribute("IdUsuario");
-        String nombres = request.getParameter("nombres");
-        String apellidos = request.getParameter("apellidos");
-        String fechanac = request.getParameter("fechanac");
-        String correo = request.getParameter("correoElectronico");
-        String pass = request.getParameter("password");
-        
-        try{
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true", "root", "4&Yi3YXQQ#nx?iHo");
-                    PreparedStatement stmt =con.prepareStatement("UPDATE usuario SET contraseña = ?, nombres = ? , apellidos = ? , mail = ? , fechaNac = ? WHERE idUsuario = ?");
-                    
-                    stmt.setString(1, pass);
-                    stmt.setString(2, nombres);
-                    stmt.setString(3, apellidos);
-                    stmt.setString(4,correo);
-                    stmt.setString(5, fechanac);
-                    stmt.setInt(6, idUsuario);
-
-                    stmt.execute();
-                    con.close();
-                    System.out.println("Datos enviados a sql");
-                     response.sendRedirect(request.getContextPath() +"/registroExito.jsp");
-                }
-                catch(SQLException ex){
-                    response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
-                    System.out.println("El error es =");
-                    System.out.println(ex);
-                    System.out.println("Error en la conexion con MYSQL");
-                } 
-                catch (ClassNotFoundException ex) {
-                    response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
-                    System.out.println("ClassNotFoundException"+ex);
-                }
-        
         processRequest(request, response);
     }
 
@@ -109,8 +74,60 @@ public class EditProfileServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.sendRedirect(request.getContextPath() +"/editProfile.jsp");;
+        throws ServletException, IOException {
+            request.setCharacterEncoding("UTF-8");
+            
+            classUsuario oldUsuario =(classUsuario) request.getSession().getAttribute("usuario");
+            int idUsuario =(int)request.getSession().getAttribute("IdUsuario");
+            String nomUsuario= oldUsuario.getUsuario();
+            String nombres = request.getParameter("nombres");
+            String apellidos = request.getParameter("apellidos");
+            String fechanac = request.getParameter("fechanac");
+            String correo = request.getParameter("correoElectronico");
+            String pass = request.getParameter("password");
+
+            try{
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true", "root", "4&Yi3YXQQ#nx?iHo");
+                PreparedStatement stmt =con.prepareStatement("UPDATE usuario SET contraseña = ?, nombres = ? , apellidos = ? , mail = ? , fechaNac = ? WHERE idUsuario = ?");
+
+                stmt.setString(1, pass);
+                stmt.setString(2, nombres);
+                stmt.setString(3, apellidos);
+                stmt.setString(4,correo);
+                stmt.setString(5, fechanac);
+                stmt.setInt(6, idUsuario);
+
+                stmt.execute();
+                con.close();
+                System.out.println("Datos enviados a sql");
+            }
+            catch(SQLException ex){
+                response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+                System.out.println("El error es =");
+                System.out.println(ex);
+                System.out.println("Error en la conexion con MYSQL");
+            } 
+            catch (ClassNotFoundException ex) {
+                response.sendRedirect(request.getContextPath() +"/errorPage.jsp");
+                System.out.println("ClassNotFoundException"+ex);
+            }
+            HttpSession miSesion = request.getSession();
+            classUsuario updateusuario =new classUsuario();
+            
+            
+            updateusuario.setIdUsuario(idUsuario);
+            updateusuario.setUsuario(nomUsuario);
+            updateusuario.setContraseña(pass);
+            updateusuario.setNombres(nombres);
+            updateusuario.setApellidos(apellidos);
+            updateusuario.setMail(correo);
+            updateusuario.setFechaNac(fechanac);
+            
+            miSesion.setAttribute("usuario",updateusuario);
+            miSesion.setAttribute("IdUsuario",updateusuario.getIdUsuario());
+            
+            response.sendRedirect(request.getContextPath() +"/menu.jsp");
     }
 
     /**

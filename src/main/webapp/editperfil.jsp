@@ -52,6 +52,7 @@
                 <div class="inputBox">
                     <label for="nombres">Nombre(s):</label>
                     <input 
+                    value="${usuario.nombres}"
                     type="text" 
                     name="nombres" 
                     id="nombres" 
@@ -64,6 +65,7 @@
                 <div class="inputBox">
                     <label for="apellidos">Apellido(s):</label>
                     <input 
+                    value="${usuario.apellidos}"
                     type="text" 
                     name="apellidos" 
                     id="apellidos" 
@@ -75,7 +77,8 @@
 
                 <div class="inputBox">
                     <label>Fecha de nacimiento:</label>
-                    <input 
+                    <input
+                    value="${usuario.fechaNac}"
                     type="date" 
                     name="fechanac" 
                     id="fechanac"
@@ -88,7 +91,8 @@
                 <div class="inputBox">
                     <label>Correo electrónico:</label>
                     <input 
-                    type="email" 
+                    type="email"
+                    value="${usuario.mail}"
                     name="correoElectronico" 
                     id="correoElectronico" 
                     placeholder="${usuario.mail}"
@@ -98,6 +102,7 @@
                 <div class="inputBox">
                     <label>Contraseña :
                         <input 
+                        value="${usuario.contraseña}"
                         type="password" 
                         name="password" 
                         id="password" 

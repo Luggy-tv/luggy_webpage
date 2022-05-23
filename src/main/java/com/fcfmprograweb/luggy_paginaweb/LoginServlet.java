@@ -182,14 +182,14 @@ public class LoginServlet extends HttpServlet {
                 }  
                 miSesion.setAttribute("numNotas",numNotas);
                 miSesion.setAttribute("listaNotas",listaNotas);
-                
-                
-                
                 response.sendRedirect(request.getContextPath() +"/menu.jsp");
             }
             else
             {
-             System.out.println("Sesion inicada redireccionando...");
+            ArrayList<classNota> listaNotas = new ArrayList<>();
+            miSesion.setAttribute("numNotas",numNotas);
+            miSesion.setAttribute("listaNotas",listaNotas);
+            System.out.println("Sesion inicada redireccionando...");
             //request.getRequestDispatcher("menu.jsp").forward(request,response);
             response.sendRedirect(request.getContextPath() +"/menu.jsp");
             }
