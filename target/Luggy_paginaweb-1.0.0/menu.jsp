@@ -17,13 +17,19 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
         
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.css">
-
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.js"></script>
 
         
         <script type="text/javascript">
             $(document).ready( function () {
                $('#tablaNotas').DataTable();
+            } );
+            
+            $('#example tbody').on( 'click', 'img.icon-delete', function () {
+            table
+            .row( $(this).parents('tr') )
+            .remove()
+            .draw();
             } );
         </script>
         
@@ -39,7 +45,7 @@
         %>
    <body>
         
-            <div class="row">
+            <div class="row" style="height:100vh">
               <div class="col-10" style="background-color: rgb(180,189,211);">
                 
                 <br>
@@ -65,23 +71,16 @@
                  </tbody>
                 </table>
               </div>
-                <div class="col-2"  style="background-color: rgb(28,39,61);">
-                    <img src="imageResources\logob.png" alt="logo" style="width: 100px;heigh:100px">
-
-                    <a href="addNServlet">
-                      <button type="button" class="btn btn-outline-success";>Añadir nota</button>
-                    </a>
-
-                    <a href="editNServlet">
-                      <button type="button" class="btn btn-outline-success";>Editar nota</button>
-                    </a>
-
-                    <a href="editperfil.jsp">
-                      <button type="button" class="btn btn-outline-light";>Editar perfil</button><br><br>
-                    </a>
-                    <a href="LogoutServlet">
-                      <button type="button" class="btn btn-outline-danger";>Cerrar sesión</button>
-                    </a>
+                <div class="col-2 text-center"  style="background-color: rgb(28,39,61);">
+                    
+                    <img src="imageResources\logow.png" style="width:60%" class="img-fluid center-block d-block mx-auto rounded-circle" alt="logo" style="width: 100px;heigh:100px">
+                    <a href="addNServlet"><button type="button" class="btn btn-outline-success";>Añadir nota</button></a>
+                    <br>
+                    <a href="editNServlet"><button type="button" class="btn btn-outline-success";>Editar nota</button></a>
+                    <br>
+                    <a href="editperfil.jsp"><button type="button" class="btn btn-outline-light";>Editar perfil</button></a>
+                    <br>
+                    <a href="LogoutServlet"><button type="button" class="btn btn-outline-danger";>Cerrar sesión</button></a>
                 </div>
             </div>
         

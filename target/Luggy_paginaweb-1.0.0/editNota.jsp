@@ -25,10 +25,11 @@
          <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-         <script src="Bootstable\bootstable.js"></script>
+         <script src="JavaScript/bootstable.js"></script>
         <script>
-        $("#tablaNotas").SetEditable();
-        $('#tablaNotas').
+       $('#mytable').SetEditable({
+                    columnsEd: "1" //editable columns 
+      });
         
         </script>
          
@@ -45,22 +46,24 @@
         </a>
         <h1>Editar Nota</h1>
         <div class="table content">
-            <table class="table table-borded table-responsive table-striped " id="tablaNotas">
+            
+            <table id="mytable">
                 <thead class="table-dark">
                     <tr>
                         <th>Id Nota</th>
                         <th>Contenido</th>
                     </tr>
                 </thead>
-                <tbody class="container">    
-                         <c:forEach var="nota" items="${listaNotas}">
-                            <tr>
-                               <td>${nota.idNota}</td>
-                               <td>${nota.contenido}</td>
-                            </tr>
-                         </c:forEach>
-                     </tbody>
+                <tbody>    
+                    <c:forEach var="nota" items="${listaNotas}">
+                       <tr>
+                          <td>${nota.idNota}</td>
+                          <td  contenteditable='true'>${nota.contenido}</td>
+                       </tr>
+                    </c:forEach>
+                </tbody>
             </table>
+            
         </div>
        </body>
 </html>
