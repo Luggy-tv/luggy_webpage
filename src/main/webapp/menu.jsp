@@ -38,20 +38,25 @@
         <a href="editperfil.jsp">
             <button>Editar Perfil</button>
         </a>
+        <a href="LogoutServlet">
+            <button>Cerrar Sesión</button>
+        </a>
         <h1>Lista de notas de ${usuario.usuario}</h1>
 
         <table id="tablaNotas" class="display">
             <thead>
                 <tr>
                     <td>Id-Nota</td>
+                    <td>Fecha de Creación</td>
                     <td>Contenido</td>
-                    <td>Fecha</td>
+                   
                 </tr>
             </thead>
             <tbody>    
             <c:forEach var="nota" items="${listaNotas}">
                 <tr>
                     <td>${nota.idNota}</td>
+                    <<td>${nota.fechaCreacion}</td>
                     <td>${nota.contenido}</td>
                 </tr>
             </c:forEach>
