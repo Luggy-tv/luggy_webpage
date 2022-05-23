@@ -1,8 +1,10 @@
 com\fcfmprograweb\luggy_paginaweb\classNota.class
 com\fcfmprograweb\luggy_paginaweb\EditProfileServlet.class
+com\fcfmprograweb\luggy_paginaweb\addNServlet.class
 com\fcfmprograweb\luggy_paginaweb\classUsuario.class
 com\fcfmprograweb\luggy_paginaweb\resources\JavaEE8Resource.class
 com\fcfmprograweb\luggy_paginaweb\LoginServlet.class
 com\fcfmprograweb\luggy_paginaweb\JAXRSConfiguration.class
+com\fcfmprograweb\luggy_paginaweb\editNServlet.class
 com\fcfmprograweb\luggy_paginaweb\RegistroServlet.class
 com\fcfmprograweb\luggy_paginaweb\LogoutServlet.class
