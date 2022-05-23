@@ -93,8 +93,8 @@ public class RegistroServlet extends HttpServlet {
             
             //InputStream inputStream = null;
             
-            System.out.println("Este es el usuario: "+nombres);
-            System.out.println("Este es el usuario: "+apellidos);
+            System.out.println("Este es el nombre: "+nombres);
+            System.out.println("Este es el apellido: "+apellidos);
             System.out.println("Este es el usuario: "+usuario);
             
             /*Part filePart = request.getPart("imagenPerfil");

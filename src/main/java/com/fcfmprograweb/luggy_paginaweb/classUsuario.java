@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.fcfmprograweb.luggy_paginaweb;
 
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class classUsuario {
     private int idUsuario; 		
@@ -116,22 +110,15 @@ public class classUsuario {
     public void setFechaNac(String fechaNac) {
         this.fechaNac = fechaNac;
     } 
-     public static boolean checkIfUsuarioHasNotas(int idUsuario_){
-        try{
-                   Class.forName("com.mysql.cj.jdbc.Driver");
-                   Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
-                   Statement stmt =con.createStatement();
-                   ResultSet rs= stmt.executeQuery("SELECT idNota,idUsuarioFK FROM nota");
-                     while(rs.next()){
-                         if(idUsuario_==rs.getInt("idUsuarioFK")){
-                             return true;
-                         }
-                     }
-                     return false;
-        }
-        catch(Exception ex){
-                   System.out.println(ex);
-                    return false;
-               }
+    
+    public long edadUsuario(){
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        
+        LocalDate start =  LocalDate.parse(this.getFechaNac(), formatter);
+        LocalDate stop = LocalDate.now( ZoneId.of( "America/Montreal" ) );
+        long years = java.time.temporal.ChronoUnit.YEARS.between( start , stop );
+        return years;
     }
+    
 }

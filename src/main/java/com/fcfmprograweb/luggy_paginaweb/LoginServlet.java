@@ -131,8 +131,25 @@ public class LoginServlet extends HttpServlet {
             miSesion.setAttribute("IdUsuario",usuario.getIdUsuario());
             
             System.out.println("Iniciando sesion y recolectando notas");
+            
+            boolean hayNotas= false;
+            try{
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/luggy?useSSL=false&allowPublicLeyRetrieval=true&characterEncoding=UTF8", "root", "4&Yi3YXQQ#nx?iHo");
+                Statement stmt =con.createStatement();
+                ResultSet rs= stmt.executeQuery("SELECT idNota,idUsuarioFK FROM nota");
+                  while(rs.next()){
+                      if(usuario.getIdUsuario()==rs.getInt("idUsuarioFK")){
+                          hayNotas= true;
+                      }
+                  }
+                  con.close();
+            }
+            catch(Exception ex){
+                       System.out.println(ex);
+                   }
+            
             //Obtiene las notas existentes del usuario de la base de datos.
-            boolean hayNotas =classUsuario.checkIfUsuarioHasNotas(usuario.getIdUsuario());
             if(hayNotas){
                 ArrayList<classNota> listaNotas = new ArrayList<>();
                 try

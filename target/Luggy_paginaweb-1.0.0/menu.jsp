@@ -35,7 +35,10 @@
         ArrayList<classNota> listaNotas= (ArrayList<classNota>)request.getSession().getAttribute("listaNotas");
         %>
     <body>
-        <h1>Lista de notas</h1>
+        <a href="editperfil.jsp">
+            <button>Editar Perfil</button>
+        </a>
+        <h1>Lista de notas de ${usuario.usuario}</h1>
 
         <table id="tablaNotas" class="display">
             <thead>
