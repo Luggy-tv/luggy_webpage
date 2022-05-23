@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE-edge"> <!--Pa que jale el internet explorer-->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Inicio de sesion</title>
+        <title>Registro de Usuario</title>
         <link rel="icon" href="imageResources\logow.png">
         <!-- 
         <link rel="stylesheet" href="Styles/LogStyle.css">

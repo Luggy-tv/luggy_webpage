@@ -35,7 +35,7 @@
         System.out.println(usuario);
         System.out.println("Cant Notas:"+cantNotasActivas);
         
-        ArrayList<classNota> listaNotas= (ArrayList<classNota>)request.getSession().getAttribute("listaNotas");
+            ArrayList<classNota> listaNotas= (ArrayList<classNota>)request.getSession().getAttribute("listaNotas");
         %>
    <body>
         
@@ -54,7 +54,7 @@
                      </tr>
                     </thead>
                     
-                 <tbody>    
+                 <tbody class="container-fluid">    
                      <c:forEach var="nota" items="${listaNotas}">
                         <tr>
                            <td>${nota.idNota}</td>
